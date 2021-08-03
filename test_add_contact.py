@@ -15,15 +15,17 @@ class UntitledTestCase(unittest.TestCase):
         self.fill_names(wd, x)
         self.add_address(wd, x)
         self.add_phones(wd, x)
-
+        self.save_contact(wd)
 
     def add_phones(self, wd, contact):
         # add telephones
         wd.find_element_by_name("home").send_keys(contact.homephone)
         wd.find_element_by_name("mobile").clear()
         wd.find_element_by_name("mobile").send_keys(contact.mobilephone)
-        wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
 
+
+    def save_contact(self, wd):
+        wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
 
     def add_address(self, wd, contact):
         # add address
