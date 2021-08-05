@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import pytest
-from contact import Contact
-from application import Application
+from model.contact import Contact
+from fixture.application import Application
 
 
 @pytest.fixture
@@ -12,10 +12,11 @@ def app(request):
 
 
 def test_untitled_test_case(app):
-        app.login(username="admin", password="secret")
+        app.session.login(username="admin", password="secret")
         x = Contact(firstname="Edward", middlename="Vampire", lastname="Kallen", address="Forks, Washington", homephone="495-1234567", mobilephone="901-1234567")
-        app.fill_names(x)
-        app.add_address(x)
-        app.add_phones(x)
-        app.save_contact()
+        app.contact.fill_names(x)
+        app.contact.add_address(x)
+        app.contact.add_phones(x)
+        app.contact.save_contact()
+        app.session.logout()
 
