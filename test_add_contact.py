@@ -3,39 +3,40 @@ from selenium import webdriver
 import unittest
 from contact import Contact
 
+
 class UntitledTestCase(unittest.TestCase):
     def setUp(self):
         self.wd = webdriver.Firefox()
         self.wd.implicitly_wait(30)
 
     def test_untitled_test_case(self):
-        wd = self.wd
-        self.login(wd, username="admin", password="secret")
+        self.login(username="admin", password="secret")
         x = Contact(firstname="Edward", middlename="Vampire", lastname="Kallen", address="Forks, Washington", homephone="495-1234567", mobilephone="901-1234567")
-        self.fill_names(wd, x)
-        self.add_address(wd, x)
-        self.add_phones(wd, x)
-        self.save_contact(wd)
+        self.fill_names(x)
+        self.add_address(x)
+        self.add_phones(x)
+        self.save_contact()
 
-    def add_phones(self, wd, contact):
-        # add telephones
+    def add_phones(self, contact):
+        wd = self.wd
         wd.find_element_by_name("home").send_keys(contact.homephone)
         wd.find_element_by_name("mobile").clear()
         wd.find_element_by_name("mobile").send_keys(contact.mobilephone)
 
 
-    def save_contact(self, wd):
+    def save_contact(self):
+        wd = self.wd
         wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
 
-    def add_address(self, wd, contact):
-        # add address
+    def add_address(self, contact):
+        wd = self.wd
         wd.find_element_by_name("address").clear()
         wd.find_element_by_name("address").send_keys(contact.address)
         wd.find_element_by_name("home").click()
         wd.find_element_by_name("home").clear()
 
-    def fill_names(self, wd, contact):
-        # add name
+    def fill_names(self, contact):
+        wd = self.wd
         wd.find_element_by_link_text("add new").click()
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
@@ -45,15 +46,15 @@ class UntitledTestCase(unittest.TestCase):
         wd.find_element_by_name("lastname").clear()
         wd.find_element_by_name("lastname").send_keys(contact.lastname)
 
-    def login(self, driver, username, password):
-        # Login
-        driver.get("http://localhost/addressbook/")
-        driver.find_element_by_name("user").click()
-        driver.find_element_by_name("user").clear()
-        driver.find_element_by_name("user").send_keys(username)
-        driver.find_element_by_name("pass").clear()
-        driver.find_element_by_name("pass").send_keys(password)
-        driver.find_element_by_xpath("//input[@value='Login']").click()
+    def login(self, username, password):
+        wd = self.wd
+        wd.get("http://localhost/addressbook/")
+        wd.find_element_by_name("user").click()
+        wd.find_element_by_name("user").clear()
+        wd.find_element_by_name("user").send_keys(username)
+        wd.find_element_by_name("pass").clear()
+        wd.find_element_by_name("pass").send_keys(password)
+        wd.find_element_by_xpath("//input[@value='Login']").click()
 
     def tearDown(self):
         self.wd.quit()
