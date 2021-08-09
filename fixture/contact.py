@@ -8,10 +8,6 @@ class ContactHelper:
         wd = self.app.wd
         wd.find_element_by_link_text("home").click()
 
-    def save_contact(self):
-        wd = self.app.wd
-        wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
-
     def delete_first_contact(self):
         wd = self.app.wd
         # goto home page
@@ -56,8 +52,9 @@ class ContactHelper:
         # add new contact
         wd.find_element_by_link_text("add new").click()
         self.fill_contact_form(contact)
+        wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
 
-    def edit(self, contact):
+    def edit_first_contact(self, contact):
         wd = self.app.wd
         # goto home page
         self.open_home_page()
